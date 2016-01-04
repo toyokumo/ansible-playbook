@@ -1,0 +1,3 @@
+# file: roles/mysql/handlers/main.yml
+- name: restart mysqld
+  service: name=mysqld state=restarted

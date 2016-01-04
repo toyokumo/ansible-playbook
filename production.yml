@@ -1,0 +1,10 @@
+- hosts: app1
+  remote_user: ec2-user
+  sudo: yes
+  vars:
+  roles:
+    - ec2-yum-update
+    - yum-package
+    - mysql
+    - nginx
+    - ruby

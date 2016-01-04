@@ -1,0 +1,23 @@
+# file: roles/ruby/tasks/main.yml
+- name: ruby state directory
+  file: state=directory path=/usr/local/src
+
+- name: ruby download
+  get_url: url="{{ url }}" dest=/usr/local/src
+
+- name: ruby extracted
+  command: tar zxf ruby-2.2.3.tar.gz chdir=/usr/local/src creates="{{ path }}"
+
+- name: ruby configured
+  command: ./configure chdir="{{ path }}" creates="{{ path }}"/Makefile
+
+- name: ruby compiled
+  command: make chdir="{{ path }}" creates="{{ path }}"/ruby
+
+- name: ruby install
+  command: make install chdir="{{ path }}" creates=/usr/local/bin/ruby
+
+- name: gem install
+  command: /usr/local/bin/gem install {{ item }}
+  with_items:
+    - bundler

@@ -1,0 +1,20 @@
+# file: roles/nginx/tasks/main.yml
+- name: nginx install
+  yum: name=nginx state=installed
+
+- name: copy nginx.conf
+  template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf backup=true mode=0644
+  notify:
+    - restart nginx
+
+- name: nginx is running and enabled
+  service: name=nginx state=running enabled=yes
+
+- name: put share index.html
+  template: src=index.html.j2 dest=/usr/share/nginx/html/index.html mode=644
+
+- name: put share 404.html
+  template: src=404.html.j2 dest=/usr/share/nginx/html/404.html mode=644
+
+- name: put share 50x.html
+  template: src=50x.html.j2 dest=/usr/share/nginx/html/50x.html mode=644

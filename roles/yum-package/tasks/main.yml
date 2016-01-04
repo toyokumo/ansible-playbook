@@ -1,0 +1,21 @@
+# file: roles/common/tasks/main.yml
+- name: yum dependencies
+  yum: name={{ item }} state=installed
+  with_items:
+    - git
+    - gcc-c++
+    - autoconf
+    - automake
+    - patch
+    - readline-devel
+    - zlib-devel
+    - libffi-devel
+    - openssl-devel
+    - libtool
+    - bison
+    - gdbm-devel
+    - libxslt-devel
+    - libxml2-devel
+    - libyaml-devel
+    - sqlite-devel
+    - ncurses-devel

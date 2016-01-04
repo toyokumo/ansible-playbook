@@ -1,0 +1,3 @@
+# file: roles/ruby/vars/main.yml
+url: ftp://ftp.ruby-lang.org/pub/ruby/2.2/ruby-2.2.3.tar.gz
+path: /usr/local/src/ruby-2.2.3

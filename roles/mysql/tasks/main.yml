@@ -1,0 +1,15 @@
+# file: roles/mysql/tasks/main.yml
+- name: mysql-server install
+  yum: name={{ item }} state=installed
+  with_items:
+    - mysql
+    - mysql-devel
+    - mysql-server
+
+- name: copy my.cnf
+  template: src=my.cnf.j2 dest=/etc/my.cnf
+  notify:
+    - restart mysqld
+
+- name: mysqld is running and enabled
+  service: name=mysqld state=running enabled=yes
