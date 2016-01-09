@@ -6,7 +6,7 @@
   get_url: url="{{ url }}" dest=/usr/local/src
 
 - name: ruby extracted
-  command: tar zxf ruby-2.2.3.tar.gz chdir=/usr/local/src creates="{{ path }}"
+  command: tar zxf ruby-2.3.0.tar.gz chdir=/usr/local/src creates="{{ path }}"
 
 - name: ruby configured
   command: ./configure chdir="{{ path }}" creates="{{ path }}"/Makefile
