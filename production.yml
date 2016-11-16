@@ -1,6 +1,6 @@
 - hosts: app1
   remote_user: ec2-user
-  sudo: yes
+  become: yes
   vars:
   roles:
     - ec2-yum-update
