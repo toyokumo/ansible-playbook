@@ -1,5 +1,5 @@
 # 環境
-- Ruby
+- Ruby installed from src
 - MySQL
 - Nginx
 
