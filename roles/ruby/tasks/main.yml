@@ -24,7 +24,6 @@
   yum: name={{ item }} state=absent
   with_items:
     - ruby
-    - ruby-devel
   when: ruby_installed|failed
 
 # use login shell
