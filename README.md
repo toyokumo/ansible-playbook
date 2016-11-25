@@ -1,5 +1,5 @@
 # 環境
-- Ruby (by rbenv)
+- Ruby 2.3.1 (by rbenv)
 - MySQL
 - Nginx
 
