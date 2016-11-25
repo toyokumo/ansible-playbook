@@ -1,23 +1,35 @@
 # file: roles/ruby/tasks/main.yml
-- name: ruby state directory
-  file: state=directory path=/usr/local/src
+- name: check rbenv
+  stat: path=/etc/profile.d/rbenv.sh
+  register: rbenv_sh
 
-- name: ruby download
-  get_url: url="{{ url }}" dest=/usr/local/src
+- name: get rbenv
+  git: repo=https://github.com/sstephenson/rbenv.git dest=/usr/local/rbenv
+  when: not rbenv_sh.stat.exists
 
-- name: ruby extracted
-  command: tar zxf ruby-2.3.0.tar.gz chdir=/usr/local/src creates="{{ path }}"
+- name: get ruby-build
+  git: repo=https://github.com/sstephenson/ruby-build.git dest=/usr/local/rbenv/plugins/ruby-build
+  when: not rbenv_sh.stat.exists
 
-- name: ruby configured
-  command: ./configure chdir="{{ path }}" creates="{{ path }}"/Makefile
+- name: copy global profile for rbenv
+  copy: src=rbenv.sh dest=/etc/profile.d/rbenv.sh
+  when: not rbenv_sh.stat.exists
 
-- name: ruby compiled
-  command: make chdir="{{ path }}" creates="{{ path }}"/ruby
+- name: check ruby
+  shell: /bin/bash -lc "rbenv versions | grep {{ ruby.version }}"
+  register: ruby_installed
+  failed_when: ruby_installed.rc not in [0, 1]
 
-- name: ruby install
-  command: make install chdir="{{ path }}" creates=/usr/local/bin/ruby
-
-- name: gem install
-  command: /usr/local/bin/gem install {{ item }}
+- name: remove old ruby
+  yum: name={{ item }} state=absent
   with_items:
-    - bundler
+    - ruby
+    - ruby-devel
+  when: ruby_installed|failed
+
+# use login shell
+# see http://qiita.com/FGtatsuro/items/2366c93131c47aef8dfe
+# see https://github.com/ansible/ansible/issues/4854
+- name: install ruby
+  shell: /bin/bash -lc "rbenv install {{ ruby.version }} && rbenv rehash && rbenv global {{ ruby.version }}"
+  when: ruby_installed|failed
