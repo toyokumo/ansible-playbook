@@ -2,7 +2,7 @@
 
 ## サービス
 - Ruby 2.4.1 (by rbenv)
-- MySQL 5.5
+- MySQL
 - Nginx + Unicorn
 
 ## 事前準備
