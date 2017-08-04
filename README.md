@@ -1,9 +1,9 @@
 # Ansible Playbook
 
-## 環境
+## サービス
 - Ruby 2.4.1 (by rbenv)
 - MySQL 5.5
-- Nginx
+- Nginx + Unicorn
 
 ## 事前準備
 - Amazon Linux であること

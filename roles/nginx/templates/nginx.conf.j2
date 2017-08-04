@@ -2,8 +2,6 @@
 
 user  nginx;
 worker_processes  {{ nginx_woker_processes }};
-
-error_log  /var/log/nginx/error.log warn;
 pid        /var/run/nginx.pid;
 
 events {
@@ -18,12 +16,12 @@ http {
                       '$status $body_bytes_sent "$http_referer" '
                       '"$http_user_agent" "$http_x_forwarded_for"';
 
-    access_log  /var/log/nginx/access.log;
+    access_log /var/log/nginx/access.log;
+    error_log  /var/log/nginx/error.log warn;
 
     server_tokens {{ nginx_server_tokens }};
 
     sendfile        on;
-    #tcp_nopush     on;
     keepalive_timeout  65;
     gzip  on;
     gzip_disable "MSIE [1-6]\.(?!.*SV1)";
@@ -34,5 +32,4 @@ http {
 {% endfor %}
 
     index   index.html index.htm;
-
 }
