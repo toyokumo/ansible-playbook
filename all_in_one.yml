@@ -1,0 +1,7 @@
+---
+# file: all_in_one.yml
+- include: common.yml
+- include: web.yml
+- include: db.yml
+- include: php.yml
+- include: ruby.yml
