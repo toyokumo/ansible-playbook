@@ -16,18 +16,6 @@
 
 ## Usage
 
-### Syntax Check
-
-    $ ansible-playbook <playbook.yml> --syntax-check
-
-### Task List
-
-    $ ansible-playbook -i <hosts> <playbook.yml> --private-key="~/.ssh/priv_key.pem" --list-tasks
-
-### Dry Run
-
-    $ ansible-playbook -i <hosts> <playbook.yml> --private-key="~/.ssh/priv_key.pem" --check
-
 ### All in One Environment
 
 一つのサーバーに common, web, db を全て含ませるパターン
@@ -57,6 +45,20 @@
 
     # common & web & ruby
     $ ansible-playbook -i production ruby.yml --private-key="~/.ssh/priv_key.pem"
+
+### Tips
+
+Syntax Check
+
+    $ ansible-playbook <playbook.yml> --syntax-check
+
+Task List
+
+    $ ansible-playbook -i <hosts> <playbook.yml> --private-key="~/.ssh/priv_key.pem" --list-tasks
+
+Dry Run
+
+    $ ansible-playbook -i <hosts> <playbook.yml> --private-key="~/.ssh/priv_key.pem" --check
 
 ## Error Tips
 
