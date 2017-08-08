@@ -1,24 +1,23 @@
 # Ansible Playbook
 
 ## Services
-- Ruby 2.4.1 (by rbenv)
-- PHP 7.1
-- MySQL
-- Nginx + Unicorn
+- `Ruby 2.4.1 (by rbenv)` or `PHP 7.1`
+- `MySQL`
+- `Nginx + Unicorn`
 
 ## Prepare
 - Amazon Linux であること
-- ec2-user でログインできること
+- ec2-user で ssh ログインできること
 
 ## Setup
-- production の ip アドレスを変更する
+- develop or production の ip アドレスを変更する
 - nginx.conf の templates を変更する
 
 ## Usage
 
 ### All in One Environment
 
-一つのサーバーに common, web, db を全て含ませるパターン
+一つのサーバーに common, web, db, php, ruby を全て含ませるパターン
 
     # develop
     $ ansible-playbook -i develop all_in_one.yml --private-key="~/.ssh/priv_key.pem"
@@ -50,7 +49,7 @@
 
 Syntax Check
 
-    $ ansible-playbook <playbook.yml> --syntax-check
+    $ ansible-playbook -i <hosts> <playbook.yml> --syntax-check
 
 Task List
 
