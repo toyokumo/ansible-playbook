@@ -65,7 +65,3 @@ Dry Run
 
     # mysql の起動で失敗した場合
     $ ssh ec2-user@xxx.xxx.xxx.xxx && sudo mysql_install_db --datadir=/var/lib/mysql --user=mysql
-
-## TODO: Manual
-- `$ mysql_secure_installation` の実行
-- ユーザーの作成と鍵の登録
