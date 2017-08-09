@@ -1,0 +1,42 @@
+---
+- name: install remi repository
+  yum: name=http://rpms.famillecollet.com/enterprise/remi-release-7.rpm state=present
+
+- name: install php71 and deps
+  yum: name={{ item }} state=present enablerepo=remi-php71 disablerepo=amzn-main
+  with_items:
+    - php
+    - php-pdo
+    - php-mbstring
+    - php-pecl-zip
+    - php-fpm
+
+- name: libwebp for gd-last
+  yum: name={{ item }} state=present enablerepo=epel disablerepo=amzn-main
+  with_items:
+    - libwebp
+
+- name: deps packages
+  yum: name={{ item }} state=present
+  with_items:
+    - libmcrypt
+    - libtool-ltdl
+    - gd-last
+    - enchant
+
+- name: deps packages for php71
+  yum: name={{ item }} state=present enablerepo=remi-php71 disablerepo=amzn-main
+  with_items:
+    - php-xml
+    - php-bcmath
+    - php-opcache
+    - php-mysqlnd
+    - php-pecl-apc
+
+- name: copy php configuration
+  template: src=php.ini dest=/etc/
+  notify: restart php-fpm
+
+- name: copy php-fpm configuration
+  template: src=www.conf dest=/etc/php-fpm.d/
+  notify: restart php-fpm
