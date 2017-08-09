@@ -1,0 +1,2 @@
+users:
+  - { name: username, password: "xxxxxxxxxxx", groups: "wheel" }

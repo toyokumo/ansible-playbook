@@ -11,7 +11,9 @@
 
 ## Setup
 - develop or production の ip アドレスを変更する
-- nginx.conf の templates を変更する
+- `nginx.conf` の templates を変更する
+- `group_vars/all` に必要なユーザーを追記、パスワードは `openssl passwd -1 your-password` で生成する
+- `roles/common/files/authorized_keys_for_username` に公開鍵を追加
 
 ## Usage
 

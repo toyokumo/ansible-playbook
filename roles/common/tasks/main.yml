@@ -1,1 +1,32 @@
 ---
+- name: users exist
+  user: name={{ item.name }} state=present password={{ item.password }} groups={{ item.groups }}
+  with_items: users
+  tags: users
+
+- name: ~/.ssh for users exsit
+  file: path="/home/{{ item.name }}/.ssh" state=directory owner={{ item.name }} group={{ item.name }} mode=0700
+  with_items: users
+  tags: users
+
+- name: authorized keys is deployed
+  copy: src="authorized_keys_for_{{ item.name }}" dest="/home/{{ item.name }}/.ssh/authorized_keys" owner={{ item.name }} group={{ item.name }} mode=0600
+  with_items: users
+  tags: users
+
+- name: enalbe sudo without password if user belongs to the wheel group
+  lineinfile: "dest=/etc/sudoers state=present regexp='^%wheel' line='%wheel ALL=(ALL) NOPASSWD: ALL'"
+  tags: users
+
+- name: set sshd_config
+  replace: >
+    dest=/etc/ssh/sshd_config
+    regexp='^#MaxStartups'
+    replace='MaxStartups 10:70:15'
+  notify:
+    - restart sshd
+  tags: sshd
+
+- name: sshd is enabled and started
+  service: name=sshd state=running enabled=yes
+  tags: sshd
