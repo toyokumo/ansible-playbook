@@ -1,4 +1,4 @@
-# file: roles/mysql/tasks/main.yml
+---
 - name: mysql-server install
   yum: name={{ item }} state=installed
   with_items:
@@ -13,3 +13,6 @@
 
 - name: mysqld is running and enabled
   service: name=mysqld state=running enabled=yes
+
+- include: mysql_secure_installation.yml
+  when: mysql_secure_installation and mysql_root_password is defined

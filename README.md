@@ -20,10 +20,10 @@
 一つのサーバーに common, web, db, php, ruby を全て含ませるパターン
 
     # develop
-    $ ansible-playbook -i develop all_in_one.yml --private-key="~/.ssh/priv_key.pem"
+    $ ansible-playbook -i develop all_in_one.yml --private-key="~/.ssh/priv_key.pem" --extra-vars "mysql_secure_installation=true mysql_root_password=your_very_secret_password"
 
     # production
-    $ ansible-playbook -i production all_in_one.yml --private-key="~/.ssh/priv_key.pem"
+    $ ansible-playbook -i production all_in_one.yml --private-key="~/.ssh/priv_key.pem" --extra-vars "mysql_secure_installation=true mysql_root_password=your_very_secret_password"
 
 ### Independent Environment
 
@@ -33,7 +33,7 @@
     $ ansible-playbook -i production web.yml --private-key="~/.ssh/priv_key.pem"
 
     # common & db
-    $ ansible-playbook -i production db.yml --private-key="~/.ssh/priv_key.pem"
+    $ ansible-playbook -i production db.yml --private-key="~/.ssh/priv_key.pem" --extra-vars "mysql_secure_installation=true mysql_root_password=your_very_secret_password"
 
 ### PHP Application
 
