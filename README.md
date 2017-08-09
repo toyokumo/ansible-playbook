@@ -53,7 +53,7 @@ Syntax Check
 
 Task List
 
-    $ ansible-playbook -i <hosts> <playbook.yml> --private-key="~/.ssh/priv_key.pem" --list-tasks
+    $ ansible-playbook -i <hosts> <playbook.yml> --list-tasks
 
 Dry Run
 
