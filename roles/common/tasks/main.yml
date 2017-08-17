@@ -1,4 +1,68 @@
 ---
+- name: set locale
+  lineinfile: >
+    dest=/etc/cloud/cloud.cfg
+    line='locale: ja_JP.UTF-8'
+  tags: system
+
+- name: set timezone
+  replace: >
+    dest=/etc/sysconfig/clock
+    regexp='^ZONE="UTC"'
+    replace='ZONE="Asia/Tokyo"'
+  tags: system
+
+- name: set localtime
+  file: >
+    src=/usr/share/zoneinfo/Asia/Tokyo
+    dest=/etc/localtime
+    state=link
+    force=yes
+  tags: system
+
+- name: leap seconds
+  replace:
+    dest: /etc/sysconfig/ntpd
+    regexp: '^OPTIONS=.*$'
+    replace: 'OPTIONS="-x"'
+  notify:
+    - restart ntpd
+  tags: system
+
+- name: ntpd is enabled and started
+  service: name=ntpd state=running enabled=yes
+  tags: system
+
+- name: dd if=/dev/zero of=/swapfile bs=1M count=1024
+  shell: dd if=/dev/zero of=/swapfile bs=1M count=1024
+  tags: system
+
+- name: mkswap /swapfile
+  shell: mkswap /swapfile
+  tags: system
+
+- name: chmod 0600 /swapfile
+  shell: chmod 0600 /swapfile
+  tags: system
+
+- name: echo "/swapfile none swap sw 0 0" >> /etc/fstab
+  shell: echo "/swapfile none swap sw 0 0" >> /etc/fstab
+  tags: system
+
+- name: copy ipv6 off file
+  copy: src="disable-ipv6.conf" dest="/etc/modprobe.d/disable-ipv6.conf"
+  tags: system
+
+- name: chkconfig ip6tables off
+  command: chkconfig ip6tables off
+  tags: system
+
+- name: disable SELinux
+  selinux:
+    policy: targeted
+    state: disabled
+  tags: system
+
 - name: users exist
   user: name={{ item.name }} state=present password={{ item.password }} groups={{ item.groups }}
   with_items: users
