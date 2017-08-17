@@ -30,7 +30,7 @@
   tags: system
 
 - name: ntpd is enabled and started
-  service: name=ntpd state=running enabled=yes
+  service: name=ntpd state=started enabled=yes
   tags: system
 
 - name: dd if=/dev/zero of=/swapfile bs=1M count=1024
@@ -55,12 +55,6 @@
 
 - name: chkconfig ip6tables off
   command: chkconfig ip6tables off
-  tags: system
-
-- name: disable SELinux
-  selinux:
-    policy: targeted
-    state: disabled
   tags: system
 
 - name: users exist
@@ -92,5 +86,5 @@
   tags: sshd
 
 - name: sshd is enabled and started
-  service: name=sshd state=running enabled=yes
+  service: name=sshd state=started enabled=yes
   tags: sshd
