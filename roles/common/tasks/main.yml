@@ -33,27 +33,12 @@
   service: name=ntpd state=started enabled=yes
   tags: system
 
-- name: dd if=/dev/zero of=/swapfile bs=1M count=1024
-  shell: dd if=/dev/zero of=/swapfile bs=1M count=1024
-  args:
-    creates: /swapfile
-  tags: system
-
-- name: mkswap /swapfile
-  shell: mkswap /swapfile
-  args:
-    creates: /swapfile
-  tags: system
-
-- name: chmod 0600 /swapfile
-  file:
-    path=/swapfile
-    state=file
-    mode=0600
-  tags: system
-
-- name: echo "/swapfile none swap sw 0 0" >> /etc/fstab
-  shell: echo "/swapfile none swap sw 0 0" >> /etc/fstab
+- name: make swap
+  shell: |
+    dd if=/dev/zero of=/swapfile bs=1M count=1024
+    mkswap /swapfile
+    chmod 0600 /swapfile
+    echo "/swapfile none swap sw 0 0" >> /etc/fstab
   args:
     creates: /swapfile
   tags: system
