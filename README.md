@@ -10,10 +10,19 @@
 - ec2-user で ssh ログインできること
 
 ## Setup
+
+### Shared Setup
 - develop or production の ip アドレスを変更する
-- `nginx.conf` の templates を変更する
 - `group_vars/all` に必要なユーザーを追記、パスワードは `openssl passwd -1 your-password` で生成する
 - `roles/common/files/authorized_keys_for_username` に公開鍵を追加
+
+### Nginx Setup
+- `nginx.conf` の templates を変更する
+
+### MySQL Setup
+- `roles/mysql/vars/main.yml.example` を `roles/mysql/vars/main.yml` にリネームして以下を編集
+- 初回実行時のみ `mysql_secure_installation: true` とする
+- `mysql_root_password` を設定する
 
 ## Usage
 
@@ -22,10 +31,10 @@
 一つのサーバーに common, web, db, php, ruby を全て含ませるパターン
 
     # develop
-    $ ansible-playbook -i develop all_in_one.yml --private-key="~/.ssh/priv_key.pem" --extra-vars "mysql_secure_installation=true mysql_root_password=your_very_secret_password"
+    $ ansible-playbook -i develop all_in_one.yml --private-key="~/.ssh/priv_key.pem"
 
     # production
-    $ ansible-playbook -i production all_in_one.yml --private-key="~/.ssh/priv_key.pem" --extra-vars "mysql_secure_installation=true mysql_root_password=your_very_secret_password"
+    $ ansible-playbook -i production all_in_one.yml --private-key="~/.ssh/priv_key.pem"
 
 ### Independent Environment
 
@@ -35,7 +44,7 @@
     $ ansible-playbook -i production web.yml --private-key="~/.ssh/priv_key.pem"
 
     # common & db
-    $ ansible-playbook -i production db.yml --private-key="~/.ssh/priv_key.pem" --extra-vars "mysql_secure_installation=true mysql_root_password=your_very_secret_password"
+    $ ansible-playbook -i production db.yml --private-key="~/.ssh/priv_key.pem"
 
 ### PHP Application
 

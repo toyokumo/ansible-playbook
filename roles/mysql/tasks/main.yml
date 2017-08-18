@@ -5,9 +5,15 @@
     - mysql
     - mysql-devel
     - mysql-server
+    - MySQL-python27
 
 - name: copy my.cnf
   template: src=my.cnf.j2 dest=/etc/my.cnf
+  notify:
+    - restart mysqld
+
+- name: copy root my.cnf
+  template: src=root_my.cnf.j2 dest=/root/.my.cnf mode=0600
   notify:
     - restart mysqld
 
