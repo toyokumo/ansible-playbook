@@ -35,18 +35,27 @@
 
 - name: dd if=/dev/zero of=/swapfile bs=1M count=1024
   shell: dd if=/dev/zero of=/swapfile bs=1M count=1024
+  args:
+    creates: /swapfile
   tags: system
 
 - name: mkswap /swapfile
   shell: mkswap /swapfile
+  args:
+    creates: /swapfile
   tags: system
 
 - name: chmod 0600 /swapfile
-  shell: chmod 0600 /swapfile
+  file:
+    path=/swapfile
+    state=file
+    mode=0600
   tags: system
 
 - name: echo "/swapfile none swap sw 0 0" >> /etc/fstab
   shell: echo "/swapfile none swap sw 0 0" >> /etc/fstab
+  args:
+    creates: /swapfile
   tags: system
 
 - name: copy ipv6 off file
@@ -54,22 +63,25 @@
   tags: system
 
 - name: chkconfig ip6tables off
-  command: chkconfig ip6tables off
+  service: name=ip6tables state=stopped enabled=no
   tags: system
 
 - name: users exist
   user: name={{ item.name }} state=present password={{ item.password }} groups={{ item.groups }}
-  with_items: users
+  with_items:
+    - "{{ users }}"
   tags: users
 
 - name: ~/.ssh for users exsit
   file: path="/home/{{ item.name }}/.ssh" state=directory owner={{ item.name }} group={{ item.name }} mode=0700
-  with_items: users
+  with_items:
+    - "{{ users }}"
   tags: users
 
 - name: authorized keys is deployed
   copy: src="authorized_keys_for_{{ item.name }}" dest="/home/{{ item.name }}/.ssh/authorized_keys" owner={{ item.name }} group={{ item.name }} mode=0600
-  with_items: users
+  with_items:
+    - "{{ users }}"
   tags: users
 
 - name: enalbe sudo without password if user belongs to the wheel group
@@ -79,7 +91,7 @@
 - name: set sshd_config
   replace: >
     dest=/etc/ssh/sshd_config
-    regexp='^#MaxStartups'
+    regexp='^#MaxStartups 10:30:100'
     replace='MaxStartups 10:70:15'
   notify:
     - restart sshd
