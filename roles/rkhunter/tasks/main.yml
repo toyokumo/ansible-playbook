@@ -1,0 +1,17 @@
+---
+- name: install rkhunter
+  yum: name={{ item }} state=present
+  with_items:
+    - rkhunter
+
+- name: edit rkhunter config
+  lineinfile: >
+    dest='/etc/rkhunter.conf'
+    state=present
+    regexp='{{ item.regexp }}'
+    line='{{ item.line }}'
+  with_items:
+    - regexp: '^.*MAIL-ON-WARNING.*\n'
+      line: 'MAIL-ON-WARNING={{ email }}'
+    - regexp: '^.*ALLOW_SSH_ROOT_USER.*\n'
+      line: 'ALLOW_SSH_ROOT_USER=no'

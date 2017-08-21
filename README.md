@@ -4,6 +4,7 @@
 - `Ruby 2.4.1 (by rbenv)` or `PHP 7.1`
 - `MySQL`
 - `Nginx + Unicorn`
+- `rkhunter`
 
 ## Prepare
 - Amazon Linux であること
@@ -15,6 +16,7 @@
 - develop or production の ip アドレスを変更する
 - `group_vars/all` に必要なユーザーを追記、パスワードは `openssl passwd -1 your-password` で生成する
 - `roles/common/files/authorized_keys_for_username` に公開鍵を追加
+- 必要であれば `roles/rkhunter/vars/main.yml` にメールアドレス記載
 
 ### Nginx Setup
 - `nginx.conf` の templates を変更する
@@ -55,6 +57,10 @@
 
     # common & web & ruby
     $ ansible-playbook -i production ruby.yml --private-key="~/.ssh/priv_key.pem"
+
+### Middlewara if you needed
+
+    $ ansible-playbook -i production rkhunter.yml --private-key="~/.ssh/priv_key.pem"
 
 ### Tips
 
