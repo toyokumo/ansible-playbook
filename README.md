@@ -25,6 +25,9 @@
 ### MySQL Setup
 - `roles/mysql/vars/main.yml.example` を `roles/mysql/vars/main.yml` にリネームして `mysql_root_password` を設定する
 
+### Postfix Setup
+- `roles/postfix/files/main.cf` を適宜修正
+
 ## Usage
 
 ### All in One Environment
