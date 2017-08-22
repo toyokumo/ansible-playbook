@@ -1,0 +1,17 @@
+---
+- name: postfix install
+  yum: name=postfix state=installed
+
+- name: deploy main.cf
+  copy: src=main.cf dest=/etc/postfix/main.cf backup=yes mode=0644
+  notify:
+    - restart postfix
+
+- name: stop sendmail
+  service: name=sendmail state=stopped enabled=no
+
+- name: change default mta to postfix
+  command: alternatives --set mta /usr/sbin/sendmail.postfix
+
+- name: postfix is started and enabled
+  service: name=postfix state=started enabled=yes

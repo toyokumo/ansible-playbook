@@ -4,6 +4,7 @@
 - `Ruby 2.4.1 (by rbenv)` or `PHP 7.1`
 - `MySQL 5.7`
 - `Nginx + Unicorn`
+- `Postfix`
 - `rkhunter`
 
 ## Prepare
@@ -28,7 +29,7 @@
 
 ### All in One Environment
 
-一つのサーバーに common, web, db, php, ruby を全て含ませるパターン
+一つのサーバーに common, web, db, php, ruby, postfix を全て含ませるパターン
 
     # develop
     $ ansible-playbook -i develop all_in_one.yml --private-key="~/.ssh/priv_key.pem"
@@ -59,6 +60,7 @@
 ### Middlewara if you needed
 
     $ ansible-playbook -i production rkhunter.yml --private-key="~/.ssh/priv_key.pem"
+    $ ansible-playbook -i production postfix.yml --private-key="~/.ssh/priv_key.pem"
 
 ### Tips
 

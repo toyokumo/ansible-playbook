@@ -5,3 +5,4 @@
 - include: db.yml
 - include: php.yml
 - include: ruby.yml
+- include: postfix.yml
