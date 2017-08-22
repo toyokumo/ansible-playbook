@@ -2,7 +2,7 @@
 
 ## Services
 - `Ruby 2.4.1 (by rbenv)` or `PHP 7.1`
-- `MySQL`
+- `MySQL 5.7`
 - `Nginx + Unicorn`
 - `rkhunter`
 
@@ -22,9 +22,7 @@
 - `nginx.conf` の templates を変更する
 
 ### MySQL Setup
-- `roles/mysql/vars/main.yml.example` を `roles/mysql/vars/main.yml` にリネームして以下を編集
-- 初回実行時のみ `mysql_secure_installation: true` とする
-- `mysql_root_password` を設定する
+- `roles/mysql/vars/main.yml.example` を `roles/mysql/vars/main.yml` にリネームして `mysql_root_password` を設定する
 
 ## Usage
 

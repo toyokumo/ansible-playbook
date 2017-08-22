@@ -1,3 +1,2 @@
 ---
-mysql_secure_installation: false
 mysql_root_password: "set_mysql_root_password"

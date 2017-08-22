@@ -1,24 +1,43 @@
 ---
-- name: mysql-server install
+- name: add mysql5.7 repo
+  yum: name="http://dev.mysql.com/get/mysql57-community-release-el6-7.noarch.rpm" state=present
+
+- name: mysql-community-server install
   yum: name={{ item }} state=installed
   with_items:
-    - mysql
-    - mysql-devel
-    - mysql-server
+    - mysql-community-server
     - MySQL-python27
 
-- name: copy my.cnf
-  template: src=my.cnf.j2 dest=/etc/my.cnf
-  notify:
-    - restart mysqld
+- name: create log file
+  file: path=/var/log/mysql-slow.log state=touch owner=mysql group=mysql mode=0664
 
-- name: copy root my.cnf
+- name: check root .my.cnf exists
+  stat:
+    path: /root/.my.cnf
+  register: root_mycnf_file
+
+- name: init MySQL service
+  service: name=mysqld enabled=yes state=started
+  when: not root_mycnf_file.stat.exists
+
+- name: get temporary password
+  shell: cat /var/log/mysqld.log | grep "temporary password" | awk '{ print $11 }'
+  register: mysql_default_password
+  when: not root_mycnf_file.stat.exists
+
+- name: change root user password
+  shell: |
+    mysql -u root -p'{{ mysql_default_password.stdout }}' --connect-expired-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '{{ mysql_root_password }}';"
+  when: not root_mycnf_file.stat.exists
+
+- name: deploy root .my.cnf
   template: src=root_my.cnf.j2 dest=/root/.my.cnf mode=0600
+  when: not root_mycnf_file.stat.exists
+
+- name: deploy my.cnf
+  template: src=my.cnf.j2 dest=/etc/my.cnf
   notify:
     - restart mysqld
 
 - name: mysqld is started and enabled
   service: name=mysqld state=started enabled=yes
-
-- include: mysql_secure_installation.yml
-  when: mysql_secure_installation and mysql_root_password is defined
