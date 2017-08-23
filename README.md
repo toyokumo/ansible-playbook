@@ -24,7 +24,7 @@
 - `nginx.conf` の templates を変更
 
 ### MySQL Setup
-- `roles/mysql/vars/main.yml.example` を `roles/mysql/vars/main.yml` にリネームして `mysql_root_password` を設定
+- `roles/mysql/vars/main.yml.example` を `roles/mysql/vars/main.yml` にリネームして適宜修正
 
 ### Postfix Setup
 - `roles/postfix/files/main.cf` を適宜修正

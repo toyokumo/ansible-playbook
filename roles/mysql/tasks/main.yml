@@ -41,3 +41,19 @@
 
 - name: mysqld is started and enabled
   service: name=mysqld state=started enabled=yes
+
+- name: removes all anonymous user accounts
+  mysql_user:
+    name: ''
+    host_all: yes
+    state: absent
+
+- name: create database
+  mysql_db: name={{ mysql_database }} state=present
+
+- name: create database user and password with the database privileges
+  mysql_user:
+    name: "{{ mysql_user }}"
+    password: "{{ mysql_user_password }}"
+    priv: '{{ mysql_database }}.*:ALL,GRANT'
+    state: present

@@ -1,2 +1,5 @@
 ---
 mysql_root_password: "set_mysql_root_password"
+mysql_database: "set_database"
+mysql_user: "set_user"
+mysql_user_password: "set_user_password"
