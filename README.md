@@ -14,16 +14,17 @@
 ## Setup
 
 ### Shared Setup
-- develop or production の ip アドレスを変更する
-- `group_vars/all` に必要なユーザーを追記、パスワードは `openssl passwd -1 your-password` で生成する
+- develop or production の ip アドレスを変更
+- `group_vars/all` の停止サービスを確認
+- `group_vars/all` に必要なユーザーを追記、パスワードは `openssl passwd -1 your-password` で生成
 - `roles/common/files/authorized_keys_for_username` に公開鍵を追加
 - 必要であれば `roles/rkhunter/vars/main.yml` にメールアドレス記載
 
 ### Nginx Setup
-- `nginx.conf` の templates を変更する
+- `nginx.conf` の templates を変更
 
 ### MySQL Setup
-- `roles/mysql/vars/main.yml.example` を `roles/mysql/vars/main.yml` にリネームして `mysql_root_password` を設定する
+- `roles/mysql/vars/main.yml.example` を `roles/mysql/vars/main.yml` にリネームして `mysql_root_password` を設定
 
 ### Postfix Setup
 - `roles/postfix/files/main.cf` を適宜修正

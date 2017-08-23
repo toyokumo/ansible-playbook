@@ -1,2 +1,13 @@
 users:
   - { name: username, password: "xxxxxxxxxxx", groups: "wheel" }
+
+off_services:
+  - atd
+  - auditd
+  - mdmonitor
+  - messagebus
+  - netfs
+  - nfslock
+  - rngd
+  - rpcbind
+  - rpcgssd

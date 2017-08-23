@@ -51,6 +51,12 @@
   service: name=ip6tables state=stopped enabled=no
   tags: system
 
+- name: chkconfig off services
+  service: name={{ item }} state=stopped enabled=no
+  with_items:
+    - "{{ off_services }}"
+  tags: system
+
 - name: users exist
   user: name={{ item.name }} state=present password={{ item.password }} groups={{ item.groups }}
   with_items:
