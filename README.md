@@ -29,6 +29,13 @@
 ### Postfix Setup
 - `roles/postfix/files/main.cf` を適宜修正
 
+以下必要最低限の変更
+
+```
+myhostname = set-your-hostname
+mydomain = set-your-domain
+```
+
 ## Usage
 
 ### All in One Environment
