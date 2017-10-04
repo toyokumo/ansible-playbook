@@ -1,8 +1,8 @@
+- include: common.yml
+
 - hosts: web
   remote_user: ec2-user
   become: yes
   vars:
   roles:
     - nginx
-
-- include: common.yml
