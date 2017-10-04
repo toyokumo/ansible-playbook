@@ -5,12 +5,12 @@ upstream unicorn_server {
 
 server {
     listen       80;
-    client_max_body_size 4G;
-    server_name  your-domain;
+    client_max_body_size 16m;
+    server_name {{ server_name }};
 
-    root         /var/www/vhost/app/current/public;
-    access_log   /var/log/nginx/app.access.log;
-    error_log    /var/log/nginx/app.error.log warn;
+    root         /var/www/vhost/{{ app_name }}/current/public;
+    access_log   /var/log/nginx/{{ app_name }}.access.log;
+    error_log    /var/log/nginx/{{ app_name }}.error.log warn;
 
     location / {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;

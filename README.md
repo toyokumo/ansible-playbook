@@ -21,7 +21,7 @@
 - 必要であれば `roles/rkhunter/vars/main.yml` にメールアドレス記載
 
 ### Nginx Setup
-- `nginx.conf` の templates を変更
+- `roles/nginx/vars/main.yml` を変更
 
 ### MySQL Setup
 - `roles/mysql/vars/main.yml.example` を `roles/mysql/vars/main.yml` にリネームして適宜修正
