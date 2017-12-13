@@ -88,6 +88,18 @@
     - restart sshd
   tags: sshd
 
+- name: modify sshd_config only permitted users can logged in
+  lineinfile:
+    dest=/etc/ssh/sshd_config
+    line={{ item }}
+    backup=yes
+  with_items:
+    - "AllowUsers deploy"
+    - "AllowUsers ec2-user@{{ permitted_ip_address }}"
+  notify:
+    - restart sshd
+  tags: sshd
+
 - name: sshd is enabled and started
   service: name=sshd state=started enabled=yes
   tags: sshd

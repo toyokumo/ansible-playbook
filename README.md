@@ -23,6 +23,7 @@ Ansible の実行に踏み台サーバーを利用したい場合 `ssh_config` �
 - `group_vars/all` の停止サービスを確認
 - `group_vars/all` に必要なユーザーを追記、パスワードは `openssl passwd -1 your-password` で生成
 - `roles/common/files/authorized_keys_for_username` の `user_name` 部分をリネームする、必要ユーザーの数だけファイル作成し公開鍵を追加
+- `roles/common/vars/main.yml` で SSH ログインを許可する from ip アドレスを記述
 - 必要であれば `roles/rkhunter/vars/main.yml` にメールアドレス記載
 
 ### Nginx Setup
