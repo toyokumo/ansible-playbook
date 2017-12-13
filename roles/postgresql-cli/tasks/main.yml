@@ -1,0 +1,7 @@
+---
+- name: Install postgresql9.6
+  yum: name={{ item }} state=latest
+  with_items:
+    - postgresql96
+    - postgresql96-libs
+    - postgresql96-contrib

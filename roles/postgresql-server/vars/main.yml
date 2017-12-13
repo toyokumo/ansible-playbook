@@ -1,0 +1,5 @@
+---
+postgresql_service_name: postgresql96
+postgresql_database: "{{ lookup('env', 'KMAILER_POSTGRESQL_DATABASE') }}"
+postgresql_user: "{{ lookup('env', 'KMAILER_POSTGRESQL_USER') }}"
+postgresql_user_password: "{{ lookup('env', 'KMAILER_POSTGRESQL_USER_PASSWORD') }}"

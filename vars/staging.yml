@@ -1,0 +1,4 @@
+---
+# nginx
+server_name: ""
+app_name: ""

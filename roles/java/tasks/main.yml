@@ -1,0 +1,13 @@
+---
+- name: Download Java9
+  get_url:
+    url: http://download.oracle.com/otn-pub/java/jdk/9.0.1+11/jre-9.0.1_linux-x64_bin.rpm
+    dest: /usr/local/src
+    headers: 'Cookie:oraclelicense=accept-securebackup-cookie'
+    validate_certs: no
+    mode: 0744
+  register: downloaded_rpm
+
+- name: Install Java9
+  shell: rpm -ivh /usr/local/src/jre-9.0.1_linux-x64_bin.rpm
+  when: downloaded_rpm|changed

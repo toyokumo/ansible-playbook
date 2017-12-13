@@ -1,0 +1,74 @@
+---
+- name: Install postgresql9.6
+  yum: name={{ item }} state=latest
+  with_items:
+    - postgresql96
+    - postgresql96-server
+    - postgresql96-libs
+    - postgresql96-contrib
+  register: installed_postgresql
+
+- name: Install python package
+  pip:
+    name: psycopg2
+
+- name: postgresql initdb
+  shell: service "{{ postgresql_service_name }}" initdb
+  when: installed_postgresql|failed
+
+- name: start postgresql
+  service: name="{{ postgresql_service_name }}" state=started enabled=yes
+
+- name: copy pg_hba.conf
+  template:
+    src: pg_hba.conf.j2
+    dest: /var/lib/pgsql96/data/pg_hba.conf
+    backup: yes
+    owner: postgres
+    group: postgres
+    mode: 0600
+  notify: restart postgresql
+
+- name: postgres user sudores
+  lineinfile:
+    dest: /etc/sudoers.d/postgres
+    owner: root
+    group: root
+    mode: 0440
+    line: "postgres ALL=(ALL) NOPASSWD: ALL"
+    state: present
+    create: yes
+    validate: "visudo -cf %s"
+
+- name : create database
+  postgresql_db:
+    name: "{{ postgresql_database }}"
+    encoding: "UTF-8"
+    login_user: postgres
+    login_password: "{{ postgresql_user_password }}"
+  become_user: postgres
+  become: yes
+
+- name: create user
+  postgresql_user:
+    db: "{{ postgresql_database }}"
+    name: "{{ postgresql_user }}"
+    password: "{{ postgresql_user_password }}"
+    priv: ALL
+    state: present
+    login_user: postgres
+    login_password: "{{ postgresql_user_password }}"
+  become_user: postgres
+  become: yes
+
+- name: add extension uuid-ossp
+  postgresql_ext:
+    name: uuid-ossp
+    db: "{{ postgresql_database }}"
+    login_user: postgres
+    login_password: "{{ postgresql_user_password }}"
+  register: added_uuid_ossp
+
+- name: change uuid-ossp to public
+  shell: psql -U postgres -d "{{ postgresql_database }}" -c 'ALTER EXTENSION "uuid-ossp" SET SCHEMA public;'
+  when: added_uuid_ossp|changed

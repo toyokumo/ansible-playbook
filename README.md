@@ -1,23 +1,28 @@
 # Ansible Playbook
 
 ## Services
-- `Ruby 2.4.1 (by rbenv)` or `PHP 7.1`
+- `Ruby 2.4.1 (by rbenv)`
+- `PHP 7.1`
+- `Java9`
 - `MySQL 5.7`
+- `PostgreSQL`
 - `Nginx + Unicorn`
 - `Postfix`
 - `rkhunter`
+- `Redis`
 
 ## Prepare
 - Amazon Linux であること
 - ec2-user で ssh ログインできること
 
 ## Setup
+Ansible の実行に踏み台サーバーを利用したい場合 `ssh_config` ファイルを生成する
 
 ### Shared Setup
 - develop or production の ip アドレスを変更
 - `group_vars/all` の停止サービスを確認
 - `group_vars/all` に必要なユーザーを追記、パスワードは `openssl passwd -1 your-password` で生成
-- `roles/common/files/authorized_keys_for_username` に公開鍵を追加
+- `roles/common/files/authorized_keys_for_username` の `user_name` 部分をリネームする、必要ユーザーの数だけファイル作成し公開鍵を追加
 - 必要であれば `roles/rkhunter/vars/main.yml` にメールアドレス記載
 
 ### Nginx Setup
@@ -25,6 +30,9 @@
 
 ### MySQL Setup
 - `roles/mysql/vars/main.yml.example` を `roles/mysql/vars/main.yml` にリネームして適宜修正
+
+### PostgreSQL Setup
+- `roles/postgresql/vars/main.yml` にある環境変数をセットする
 
 ### Postfix Setup
 - `roles/postfix/files/main.cf` を適宜修正
@@ -42,36 +50,38 @@ mydomain = set-your-domain
 
 一つのサーバーに common, web, db, php, ruby, postfix を全て含ませるパターン
 
-    # develop
-    $ ansible-playbook -i develop all_in_one.yml --private-key="~/.ssh/priv_key.pem"
-
-    # production
-    $ ansible-playbook -i production all_in_one.yml --private-key="~/.ssh/priv_key.pem"
+    $ ansible-playbook -i <hosts> all_in_one.yml
 
 ### Independent Environment
 
 役割ごとに構築するパターン
 
     # common & web
-    $ ansible-playbook -i production web.yml --private-key="~/.ssh/priv_key.pem"
+    $ ansible-playbook -i <hosts> web.yml
 
     # common & db
-    $ ansible-playbook -i production db.yml --private-key="~/.ssh/priv_key.pem"
+    # MySQL か PostgreSQL の使う方をコメントアウトする
+    $ ansible-playbook -i <hosts> db.yml
 
 ### PHP Application
 
     # common & web & php
-    $ ansible-playbook -i production php.yml --private-key="~/.ssh/priv_key.pem"
+    $ ansible-playbook -i <hosts> php.yml
 
 ### Ruby on Rails Application
 
     # common & web & ruby
-    $ ansible-playbook -i production ruby.yml --private-key="~/.ssh/priv_key.pem"
+    $ ansible-playbook -i <hosts> ruby.yml
+
+### Java Application
+
+    $ ansible-playbook -i <hosts> java.yml
 
 ### Middlewara if you needed
 
-    $ ansible-playbook -i production rkhunter.yml --private-key="~/.ssh/priv_key.pem"
-    $ ansible-playbook -i production postfix.yml --private-key="~/.ssh/priv_key.pem"
+    $ ansible-playbook -i <hosts> rkhunter.yml
+    $ ansible-playbook -i <hosts> postfix.yml
+    $ ansible-playbook -i <hosts> redis.yml
 
 ### Tips
 
