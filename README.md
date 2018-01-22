@@ -58,7 +58,7 @@ mydomain = set-your-domain
 役割ごとに構築するパターン
 
     # common & web
-    $ ansible-playbook -i <hosts> web.yml
+    $ ansible-playbook -i <hosts> nginx.yml
 
     # common & db
     # MySQL か PostgreSQL の使う方をコメントアウトする
