@@ -5,7 +5,9 @@
   become: yes
   vars:
   roles:
+    # MySQL の場合
     # -mysql
 
+    # PostgreSQL の場合
     # - { role: postgresql-cli,    when: "env in ['production', 'staging']" }
     # - { role: postgresql-server, when: "env == 'develop'" }

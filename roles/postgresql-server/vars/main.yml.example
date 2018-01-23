@@ -1,0 +1,5 @@
+---
+postgresql_service_name: postgresql96
+postgresql_database: "set database name"
+postgresql_user: "set database user"
+postgresql_user_password: "set database user password"

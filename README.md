@@ -31,9 +31,11 @@ Ansible の実行に踏み台サーバーを利用したい場合 `ssh_config` �
 
 ### MySQL Setup
 - `roles/mysql/vars/main.yml.example` を `roles/mysql/vars/main.yml` にリネームして適宜修正
+- `db.yml` を修正
 
 ### PostgreSQL Setup
-- `roles/postgresql/vars/main.yml` にある環境変数をセットする
+- `roles/postgresql-server/vars/main.yml.example` を `roles/postgresql-server/vars/main.yml` にリネームして適宜修正
+- `db.yml` を修正
 
 ### Postfix Setup
 - `roles/postfix/files/main.cf` を適宜修正
