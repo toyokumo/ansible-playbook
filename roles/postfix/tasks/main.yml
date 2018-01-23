@@ -3,7 +3,7 @@
   yum: name=postfix state=installed
 
 - name: deploy main.cf
-  copy: src=main.cf dest=/etc/postfix/main.cf backup=yes mode=0644
+  template: src={{ env }}-main.cf.j2 dest=/etc/postfix/main.cf backup=yes mode=0644
   notify:
     - restart postfix
 

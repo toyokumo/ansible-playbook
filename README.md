@@ -6,7 +6,7 @@
 - `Java9`
 - `MySQL 5.7`
 - `PostgreSQL`
-- `Nginx + Unicorn`
+- `Nginx`
 - `Postfix`
 - `rkhunter`
 - `Redis`
@@ -27,7 +27,7 @@ Ansible の実行に踏み台サーバーを利用したい場合 `ssh_config` �
 - 必要であれば `roles/rkhunter/vars/main.yml` にメールアドレス記載
 
 ### Nginx Setup
-- `roles/nginx/vars/main.yml` を変更
+- `vars/` 配下のファイルを確認変更
 
 ### MySQL Setup
 - `roles/mysql/vars/main.yml.example` を `roles/mysql/vars/main.yml` にリネームして適宜修正
@@ -38,14 +38,7 @@ Ansible の実行に踏み台サーバーを利用したい場合 `ssh_config` �
 - `db.yml` を修正
 
 ### Postfix Setup
-- `roles/postfix/files/main.cf` を適宜修正
-
-以下必要最低限の変更
-
-```
-myhostname = set-your-hostname
-mydomain = set-your-domain
-```
+- `vars/` 配下のファイルを確認変更
 
 ## Usage
 

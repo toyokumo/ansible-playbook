@@ -1,0 +1,36 @@
+##--- 80 port
+server {
+  listen       80;
+  client_max_body_size 16m;
+  server_name  {{ server_name }};
+
+  access_log   /var/log/nginx/{{ app_name }}.access.log;
+  error_log    /var/log/nginx/{{ app_name }}.error.log warn;
+
+   if ($http_x_forwarded_proto != 'https') {
+       return 301 https://$host$request_uri;
+   }
+
+  location / {
+    proxy_pass http://localhost:3000;
+  }
+
+  location /nginx_status {
+    stub_status on;
+    access_log off;
+    allow 127.0.0.1;
+    deny all;
+  }
+}
+
+#--- error handling
+server {
+  listen       80  default_server;
+  server_name  _;
+
+  # ELB ヘルスチェック返答
+  location /health-check {
+    proxy_pass http://localhost:3000;
+  }
+
+}

@@ -1,0 +1,44 @@
+##--- 80 port
+server {
+  listen       80;
+  server_name localhost;
+
+  location /nginx_status {
+    stub_status on;
+    access_log off;
+    allow 127.0.0.1;
+    deny all;
+  }
+}
+
+##--- 443 port
+server {
+  listen       443 ssl;
+  client_max_body_size 16m;
+  server_name  {{ server_name }};
+
+  access_log   /var/log/nginx/{{ app_name }}_ssl.access.log;
+  error_log    /var/log/nginx/{{ app_name }}_ssl.error.log warn;
+
+  location / {
+    proxy_pass http://localhost:3000;
+  }
+
+  ssl          on;
+  ssl_session_cache shared:SSL:1m;
+  ssl_session_timeout  5m;
+  ssl_prefer_server_ciphers on;
+  ssl_ciphers ECDH+AESGCM:ECDH+AESGCM:ECDH+AES256:ECDH+AES128:RSA+AESGCM:RSA+AES:!aNULL:!eNull:!EXPORT:!MD5:!DSS;
+  ssl_certificate      {{ path_to_ssl_cert }};
+  ssl_certificate_key  {{ path_to_ssl_cert_key }};
+}
+
+##--- error handling
+server {
+  listen       443  default_server;
+  server_name  _;
+  ssl_certificate      {{ path_to_ssl_cert }};
+  ssl_certificate_key  {{ path_to_ssl_cert_key }};
+
+  return       444;
+}

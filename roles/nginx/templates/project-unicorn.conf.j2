@@ -1,5 +1,5 @@
 upstream unicorn_server {
-    server unix:/tmp/unicorn.sock
+    server unix:/var/www/vhost/{{ app_name }}/shared/tmp/sockets/unicorn.sock
     fail_timeout=0;
 }
 

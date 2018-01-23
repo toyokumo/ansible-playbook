@@ -2,3 +2,9 @@
 # nginx
 server_name: ""
 app_name: ""
+path_to_ssl_cert: ""
+path_to_ssl_cert_key: ""
+
+# postfix
+myhostname: ""
+mydomain: ""
