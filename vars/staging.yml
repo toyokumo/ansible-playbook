@@ -1,4 +1,7 @@
 ---
+# sshd_config で許可するIPアドレス
+permitted_ip_address: 111.222.333.444
+
 # nginx
 server_name: ""
 app_name: ""

@@ -1,3 +1,0 @@
----
-# sshd_config で許可するIPアドレス
-permitted_ip_address: 111.222.333.444
