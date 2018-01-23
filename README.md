@@ -19,7 +19,7 @@
 Ansible の実行に踏み台サーバーを利用したい場合 `ssh_config` ファイルを生成する
 
 ### Shared Setup
-- develop or production の ip アドレスを変更
+- develop, staging, production の ip アドレスを変更
 - `group_vars/all` の停止サービスを確認
 - `group_vars/all` に必要なユーザーを追記、パスワードは `openssl passwd -1 your-password` で生成
 - `roles/common/files/authorized_keys_for_username` の `user_name` 部分をリネームする、必要ユーザーの数だけファイル作成し公開鍵を追加
@@ -42,42 +42,16 @@ Ansible の実行に踏み台サーバーを利用したい場合 `ssh_config` �
 
 ## Usage
 
-### All in One Environment
-
-一つのサーバーに common, web, db, php, ruby, postfix を全て含ませるパターン
-
-    $ ansible-playbook -i <hosts> all_in_one.yml
-
-### Independent Environment
-
-役割ごとに構築するパターン
-
-    # common & web
-    $ ansible-playbook -i <hosts> nginx.yml
-
-    # common & db
-    # MySQL か PostgreSQL の使う方をコメントアウトする
-    $ ansible-playbook -i <hosts> db.yml
-
-### PHP Application
-
-    # common & web & php
-    $ ansible-playbook -i <hosts> php.yml
-
-### Ruby on Rails Application
-
-    # common & web & ruby
-    $ ansible-playbook -i <hosts> ruby.yml
-
-### Java Application
-
-    $ ansible-playbook -i <hosts> java.yml
-
-### Middlewara if you needed
-
-    $ ansible-playbook -i <hosts> rkhunter.yml
-    $ ansible-playbook -i <hosts> postfix.yml
-    $ ansible-playbook -i <hosts> redis.yml
+```
+$ ansible-playbook -i <hosts> nginx.yml
+$ ansible-playbook -i <hosts> db.yml # MySQL か PostgreSQL の使う方をコメントアウトする
+$ ansible-playbook -i <hosts> php.yml
+$ ansible-playbook -i <hosts> ruby.yml
+$ ansible-playbook -i <hosts> java.yml
+$ ansible-playbook -i <hosts> rkhunter.yml
+$ ansible-playbook -i <hosts> postfix.yml
+$ ansible-playbook -i <hosts> redis.yml
+```
 
 ### Tips
 
