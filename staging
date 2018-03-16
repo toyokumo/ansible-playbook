@@ -1,0 +1,8 @@
+[web]
+xx.xx.xx.xx:yyyy
+
+[db]
+xx.xx.xx.xx:yyyy
+
+[all:vars]
+env=staging
